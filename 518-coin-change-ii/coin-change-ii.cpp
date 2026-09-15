@@ -1,25 +1,24 @@
 class Solution {
-public:
-    int func(int ind, int target, vector<int>& coins,vector<vector<int>>& dp) {
+public:  
+    int func(vector<int>& coins,int idx,int amount,vector<vector<int>> &dp){
+        if(idx==0){
+            return (amount%coins[0]==0);
+        }
+        if(dp[idx][amount]!=-1){
+            return dp[idx][amount];
+        }
 
-        if (ind == 0)
-            return (target % coins[0] == 0);
-
-        if (dp[ind][target] != -1) return dp[ind][target];
-
-        int notTake = func(ind - 1, target, coins, dp);
-        int take = 0;
-        if (coins[ind] <= target)
-            take = func(ind, target - coins[ind], coins, dp);
-
-        return dp[ind][target] = take + notTake;
+        int notTake=func(coins,idx-1,amount,dp);
+        int take =0;
+        if(coins[idx]<= amount){
+            take=func(coins,idx,amount-coins[idx],dp);
+        }
+        return dp[idx][amount]=take+notTake;
     }
 
     int change(int amount, vector<int>& coins) {
-
-        int n = coins.size();
+        int n=coins.size();
         vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
-
-        return func(n - 1, amount, coins, dp);
+        return func(coins,n-1,amount,dp);
     }
 };
