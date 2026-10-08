@@ -1,25 +1,32 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        int maxRange = 0;
-        int minRange = 0;
+        //maxOpen → Maximum possible unmatched opening brackets (.
+        //minOpen → Minimum possible unmatched opening brackets (.
+        int maxOpen = 0;
+        int minOpen = 0;
 
         for (int i = 0; i < s.size(); i++) {
             if (s[i] == '(') {
-                maxRange++;
-                minRange++;
-            } else if (s[i] == ')') {
-                maxRange--;
-                minRange--;
-            } else {
-                maxRange++;
-                minRange--;
+                maxOpen++;
+                minOpen++;
             }
-            if (minRange < 0)
-                minRange = 0;
-            if (maxRange < 0)
+            else if (s[i] == ')') {
+                maxOpen--;
+                minOpen--;
+            }
+            else {  // '*'
+                maxOpen++;
+                minOpen--;
+            }
+
+            if (minOpen < 0)
+                minOpen = 0;
+
+            if (maxOpen < 0)
                 return false;
         }
-        return (minRange == 0);
+
+        return (minOpen == 0);
     }
 };
