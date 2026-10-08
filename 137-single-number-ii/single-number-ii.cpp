@@ -1,18 +1,20 @@
 class Solution {
 public:
-    int singleNumber(vector<int>& nums) {
-        unordered_map<int,int>mpp;
+    int singleNumber(vector<int>& nums) {        
+        int ans=0;
 
-        for(int it:nums){
-            mpp[it]++;
-        }
+        for(int i=0;i<32;i++){
+            int cnt=0;
 
-        for(int it:nums){
-            if(mpp[it]==1){
-                return it;
+            for(int j=0;j<nums.size();j++){
+                if(nums[j]&(1<<i)){
+                    cnt++;
+                }
             }
+            if((cnt%3)==1){
+                ans=ans|(1<<i);
+            }     
         }
-        return -1;
-        
+        return ans;
     }
 };
