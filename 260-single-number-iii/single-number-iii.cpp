@@ -1,28 +1,29 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        long long xorr=0;
-        vector<int>ans;
 
-        for(int i=0;i<nums.size();i++){
-            xorr=xorr^nums[i];
+        unsigned int xr = 0;
+
+        // Step 1: XOR of all elements
+        for(int num : nums) {
+            xr = xr ^ num;
         }
-        int rightMost= (xorr & (xorr-1)) ^ xorr;
 
-        int b1=0;
-        int b2=0;
+        // Step 2: Find rightmost set bit
+        unsigned int bit = xr & -xr;
 
-        for(int i=0;i<nums.size();i++){
-            if(nums[i] & rightMost){
-                b1=b1^nums[i];
+        int a = 0, b = 0;
+
+        // Step 3: Divide into two groups
+        for(int num : nums) {
+            if(num & bit) {
+                a = a ^ num;
             }
-            else{
-                b2=b2^nums[i];
+            else {
+                b = b ^ num;
             }
         }
-        ans.push_back(b1);
-        ans.push_back(b2);
 
-        return ans;
+        return {a, b};
     }
 };
